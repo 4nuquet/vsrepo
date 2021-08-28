@@ -1,0 +1,19 @@
+:root {
+  --primary: #e91e63;
+  --secondary: #7b809a;
+  --success: #4caf50;
+  --info: #03a9f4;
+  --warning: #fb8c00;
+  --danger: #f44335;
+  --gray-200: #e9ecef;
+
+  $theme-colors: (
+    'primary': --primary,
+    'secondary': --secondary,
+    'success': --success,
+    'info': --info,
+    'warning': --warning,
+    'danger': --danger,
+    'gray-200': --gray-200,
+  );
+}
