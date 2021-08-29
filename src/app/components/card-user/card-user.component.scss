@@ -4,8 +4,21 @@
   &__header {
     height: 200px;
     z-index: 2;
-    background-image: var(--gradient-primary);
+    background-image: var(--gradient-info);
     box-shadow: var(--card-header-shadow);
     border-radius: var(--s12);
+
+    &--avatar {
+      width: var(--s160);
+      height: var(--s160);
+    }
+  }
+  &__body {
+    i {
+      font-size: var(--s24);
+    }
+    &--item {
+      color: var(--black);
+    }
   }
 }

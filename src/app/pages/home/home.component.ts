@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { GithubService } from './../../services/github.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -6,5 +7,21 @@ import { Component } from '@angular/core';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  constructor() {}
+  firstSearchState: boolean = false;
+  firstUser: any;
+  secondSearchState: boolean = false;
+  secondUser: any;
+  constructor(private githubService: GithubService) {}
+
+  public searchUser(username: string) {
+    this.githubService.getUser(username).then((res) => {
+      if (this.firstUser) {
+        this.secondUser = res;
+        this.secondSearchState = true;
+      } else {
+        this.firstUser = res;
+        this.firstSearchState = true;
+      }
+    });
+  }
 }

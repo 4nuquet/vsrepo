@@ -6,10 +6,14 @@
   --info: #03a9f4;
   --warning: #fb8c00;
   --danger: #f44335;
+  --black: #32325d;
   --gray-100: #f8f9fa;
   --gray-200: #eff2f5;
   --gray-300: #d2d6da;
   --gradient-primary: linear-gradient(195deg, #ec407a, #d81b60);
+  --gradient-success: linear-gradient(195deg, #66bb6a, #43a047);
+  --gradient-info: linear-gradient(195deg, #49a3f1, #1a73e8);
+  --gradient-dark: linear-gradient(195deg, #42424a, #191919);
 
   //Spacing
   --spacer: 1rem;
@@ -19,6 +23,11 @@
   --s4: 0.25rem;
   --s8: 0.5rem;
   --s12: 0.75rem;
+  --s16: var(--spacer);
+  --s24: 1.5rem;
+  --s32: 2rem;
+  --s64: 4rem;
+  --s160: 10rem;
 
   //Shadows
   --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
