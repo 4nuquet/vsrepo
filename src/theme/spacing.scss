@@ -1,0 +1,15 @@
+.mt-n1 {
+  margin-top: calc(var(--spacer) * -0.25) !important;
+}
+.mt-n2 {
+  margin-top: calc(var(--spacer) * -0.5) !important;
+}
+.mt-n3 {
+  margin-top: -var(--spacer) !important;
+}
+.mt-n4 {
+  margin-top: calc(var(--spacer) * -1.5) !important;
+}
+.mt-n5 {
+  margin-top: calc(var(--spacer) * -3) !important;
+}

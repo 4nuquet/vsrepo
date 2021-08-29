@@ -1,0 +1,11 @@
+.card_user {
+  border-radius: var(--s12);
+  box-shadow: var(--card-shadow);
+  &__header {
+    height: 200px;
+    z-index: 2;
+    background-image: var(--gradient-primary);
+    box-shadow: var(--card-header-shadow);
+    border-radius: var(--s12);
+  }
+}

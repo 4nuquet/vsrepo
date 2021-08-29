@@ -1,4 +1,16 @@
+//Icons
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css');
+
+//Theme
 @import 'theme/variables.scss';
+@import 'theme/spacing.scss';
+
 body {
   background-color: var(--gray-200);
 }
+
+.position-relative {
+  position: relative !important;
+}
+
+//Spacing

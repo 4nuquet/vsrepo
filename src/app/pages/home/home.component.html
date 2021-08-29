@@ -1,3 +1,23 @@
-<div class="container">
-  <h1 class="text-success">hola esto la configuracion del tema</h1>
+<div class="home container">
+  <app-navbar></app-navbar>
+  <section class="my-4 p-4">
+    <h1 class="display-6">Busca y compara</h1>
+    <p class="lead">Encuentra un usuario en GitHub y compara su informacion</p>
+  </section>
+  <section class="d-flex justify-content-around my-5">
+    <div class="w-25"><app-search-bar></app-search-bar></div>
+    <div class="w-25"><app-search-bar></app-search-bar></div>
+  </section>
+  <section class="row my-5">
+    <div class="col-md-6">
+      <app-card-user></app-card-user>
+    </div>
+    <div class="col-md-6"><app-card-user></app-card-user></div>
+  </section>
+  <section class="home__result p-4">
+    <div class="my-4 pb-4">
+      <h1 class="display-5 text-center">Ahora puedes buscar a profundidad</h1>
+    </div>
+    <app-search-bar></app-search-bar>
+  </section>
 </div>
