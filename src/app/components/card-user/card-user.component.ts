@@ -8,4 +8,9 @@ import { Component, Input } from '@angular/core';
 export class CardUserComponent {
   @Input() user: any;
   constructor() {}
+
+  get hasSocialInfo() {
+    console.log(this.user);
+    return this.user?.blog || this.user?.twitter_username;
+  }
 }

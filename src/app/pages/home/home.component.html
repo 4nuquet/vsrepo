@@ -5,13 +5,13 @@
     <p class="lead">Encuentra un usuario en GitHub y compara su informacion</p>
   </section>
   <section class="row my-5">
-    <div class="col">
+    <div class="col-md-6">
       <app-search-bar
         (clickSearch)="searchUser($event)"
         [(successfulSearch)]="firstSearchState"
       ></app-search-bar>
     </div>
-    <div class="col">
+    <div class="col-md-6" *ngIf="firstUser">
       <app-search-bar
         (clickSearch)="searchUser($event)"
         [(successfulSearch)]="secondSearchState"
@@ -22,7 +22,7 @@
     <div class="col-md-6 mt-4">
       <app-card-user [user]="firstUser"></app-card-user>
     </div>
-    <div class="col-md-6 mt-4">
+    <div class="col-md-6 mt-4" *ngIf="firstUser">
       <app-card-user [user]="secondUser"></app-card-user>
     </div>
   </section>
