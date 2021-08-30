@@ -10,7 +10,6 @@ export class CardUserComponent {
   constructor() {}
 
   get hasSocialInfo() {
-    console.log(this.user);
     return this.user?.blog || this.user?.twitter_username;
   }
 }

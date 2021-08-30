@@ -6,7 +6,7 @@
       Encuentra un usuario en GitHub y compara su informacion
     </p>
   </section>
-  <div *ngIf="{ users: users$ | async } as store">
+  <div *ngIf="{ users: users$ | async, searches: searches$ | async } as store">
     <section class="row my-5">
       <div class="col-md-5">
         <app-search-bar
@@ -32,14 +32,29 @@
         <app-card-user [user]="store.users?.secondUser"></app-card-user>
       </div>
     </section>
-    <section class="home__result p-4">
+    <section
+      class="home__result p-4"
+      *ngIf="store.users?.firstUser && store.users?.secondUser"
+    >
       <div class="my-4 pb-4">
-        <h1 class="display-5 text-center">Ahora puedes buscar a profundidad</h1>
+        <h1 class="fw-bold display-5 text-center text-primary">
+          Ahora puedes buscar a profundidad
+        </h1>
       </div>
-      <app-search-bar></app-search-bar>
+      <div class="row my-5 justify-content-center" *ngIf="store.searches">
+        <div class="col-md-5">
+          <app-search-bar
+            (clickSearch)="searchRepository($event)"
+            [(successfulSearch)]="searchesState"
+          ></app-search-bar>
+        </div>
+      </div>
       <div class="row">
-        <div class="col-3" *ngFor="let item of [1, 2, 3, 4]">
-          <app-card-result></app-card-result>
+        <div class="col-3" *ngFor="let item of searches">
+          <app-card-result
+            [result]="item"
+            [type]="searchType"
+          ></app-card-result>
         </div>
       </div>
     </section>

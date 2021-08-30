@@ -5,6 +5,11 @@ import { GithubService } from './../../services/github.service';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import {
+  Repository,
+  SearchesState,
+} from './../../store/searches/searches.state';
+import * as SearchesActions from './../../store/searches/searches.actions';
 
 @Component({
   selector: 'app-home',
@@ -13,10 +18,13 @@ import { Observable } from 'rxjs';
 })
 export class HomeComponent implements OnInit {
   users$: Observable<UsersState>;
+  users: UsersState;
+  searches$: Observable<SearchesState>;
+  searches: any[];
+  searchType: string;
   firstSearchState: boolean = false;
-  firstUser: any;
   secondSearchState: boolean = false;
-  secondUser: any;
+  searchesState: boolean = false;
   public position: string;
 
   constructor(
@@ -24,8 +32,13 @@ export class HomeComponent implements OnInit {
     private githubService: GithubService
   ) {
     this.users$ = this.store.select('usersState');
+    this.searches$ = this.store.select('searchesState');
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.users$.subscribe((user) => {
+      this.users = user;
+    });
+  }
 
   public searchUser(username: string) {
     this.githubService.getUser(username).then((res) => {
@@ -37,6 +50,26 @@ export class HomeComponent implements OnInit {
         this.secondSearchState = true;
       }
     });
+  }
+  public searchRepository(query: string) {
+    const firstUser = this.users.firstUser?.login || '';
+    const secondUser = this.users.secondUser?.login || '';
+    const firstRequest = this.githubService.searchRepository(firstUser, query);
+    const secondRequest = this.githubService.searchRepository(
+      secondUser,
+      query
+    );
+    Promise.all([firstRequest, secondRequest]).then((response) => {
+      const repositories = [...response[0]?.items, response[1]?.items];
+      this.searches = repositories;
+      this.searchType = 'repo';
+      this.addRepository(repositories);
+      this.searchesState = true;
+    });
+  }
+
+  addRepository(repo: Repository[]) {
+    this.store.dispatch(new SearchesActions.AddRepositories(repo));
   }
 
   addFirstUser(user: User) {

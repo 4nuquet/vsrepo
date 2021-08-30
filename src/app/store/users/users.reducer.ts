@@ -1,7 +1,10 @@
-import { initialState } from './user.state';
+import { initialState, UsersState } from './user.state';
 import { USER_ACTIONS, TYPE_ACTION } from './users.actions';
 
-export function usersReducer(state = initialState, action: USER_ACTIONS) {
+export function usersReducer(
+  state: UsersState = initialState,
+  action: USER_ACTIONS
+) {
   const { type, payload } = action;
   switch (type) {
     case TYPE_ACTION.createFirstUser:

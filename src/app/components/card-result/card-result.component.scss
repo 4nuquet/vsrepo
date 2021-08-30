@@ -1,13 +1,17 @@
 .card_result {
   border-radius: var(--s12);
   box-shadow: var(--card-shadow);
+  &__header {
+    background-color: white;
+  }
   &__icon {
     width: var(--s64);
     height: var(--s64);
     z-index: 2;
-    box-shadow: var(--card-header-shadow);
+    box-shadow: var(--card-shadow);
     border-radius: var(--s12);
     i {
+      color: white;
       font-size: var(--s32);
     }
 

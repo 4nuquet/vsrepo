@@ -9,6 +9,7 @@ export interface UsersState {
 }
 
 export interface User {
+  login: string;
   name: string;
   bio?: string;
   followers: string;

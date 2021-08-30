@@ -1,5 +1,5 @@
 <div class="card my-2 card_result">
-  <div class="card-header p-3 pt-2">
+  <div class="p-3 pt-2">
     <div
       class="
         mt-n4
@@ -10,21 +10,22 @@
         justify-content-center
         align-items-center
       "
+      ngClass="card_result__icon--{{ type }}"
     >
-      <i class="bi bi-box-seam"></i>
+      <i [class]="icon"></i>
     </div>
     <div class="text-end pt-1">
-      <p class="text-sm mb-0 text-capitalize">Bookings</p>
-      <h4 class="mb-0">281</h4>
+      <p class="mb-0 fw-lighter">@{{ result.owner.login }}</p>
+      <h4 class="mb-0 fw-bold text-dark">{{ result.name }}</h4>
     </div>
   </div>
+  <hr class="hr-dark" />
   <div class="card-body">
     <h6>Views</h6>
-  </div>
-  <div class="card-footer">
-    <p class="mb-0">
-      <span class="text-success text-sm font-weight-bolder">+55% </span>than
-      lask week
-    </p>
+    <div class="d-flex">
+      <span class="lead">
+        {{ result.stargazers_count }}
+      </span>
+    </div>
   </div>
 </div>
