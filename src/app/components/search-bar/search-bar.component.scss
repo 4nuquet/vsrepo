@@ -1,0 +1,9 @@
+.search-bar {
+  &--result {
+    border-radius: var(--s12);
+    box-shadow: var(--card-shadow);
+    i {
+      font-size: var(--s24);
+    }
+  }
+}

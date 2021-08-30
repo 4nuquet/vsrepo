@@ -1,6 +1,7 @@
-<form [formGroup]="formSearch">
+<form [formGroup]="formSearch" class="search-bar">
   <div class="input-group" *ngIf="!successfulSearch; else result">
     <input
+      [ngClass]="{ 'is-invalid': hasErrors }"
       type="text"
       class="form-control py-2"
       placeholder="A quien buscas?"
@@ -13,17 +14,21 @@
     >
       Buscar
     </button>
+    <div *ngIf="word?.errors" class="invalid-feedback">
+      Ingresa un nombre se usuario
+    </div>
   </div>
   <ng-template #result>
-    <h1 class="display-6 fw-bold text-center">{{ word?.value }}</h1>
+    <div class="card p-4 search-bar--result">
+      <h1 class="display-6 fw-bold text-center">{{ word?.value }}</h1>
+      <div class="d-flex justify-content-end">
+        <span class="me-4">
+          <i class="bi bi-arrow-counterclockwise text-warning"></i>
+        </span>
+        <span class="ms-4" (click)="handleClickRemove()">
+          <i class="bi bi-trash text-danger"></i>
+        </span>
+      </div>
+    </div>
   </ng-template>
-
-  <div class="d-flex m-2 mt-4 justify-content-end">
-    <span class="me-4">
-      <i class="bi bi-arrow-counterclockwise text-warning"></i>
-    </span>
-    <span class="ms-4" (click)="handleClickRemove()">
-      <i class="bi bi-trash text-danger"></i>
-    </span>
-  </div>
 </form>

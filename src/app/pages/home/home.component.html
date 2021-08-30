@@ -1,40 +1,47 @@
 <div class="home container">
   <app-navbar></app-navbar>
   <section class="my-4 p-4">
-    <h1 class="display-6">Busca y compara</h1>
-    <p class="lead">Encuentra un usuario en GitHub y compara su informacion</p>
+    <h1 class="display-6 fw-bold text-dark">Busca y compara</h1>
+    <p class="lead fst-italic">
+      Encuentra un usuario en GitHub y compara su informacion
+    </p>
   </section>
-  <section class="row my-5">
-    <div class="col-md-6">
-      <app-search-bar
-        (clickSearch)="searchUser($event)"
-        [(successfulSearch)]="firstSearchState"
-      ></app-search-bar>
-    </div>
-    <div class="col-md-6" *ngIf="firstUser">
-      <app-search-bar
-        (clickSearch)="searchUser($event)"
-        [(successfulSearch)]="secondSearchState"
-      ></app-search-bar>
-    </div>
-  </section>
-  <section class="row my-5">
-    <div class="col-md-6 mt-4">
-      <app-card-user [user]="firstUser"></app-card-user>
-    </div>
-    <div class="col-md-6 mt-4" *ngIf="firstUser">
-      <app-card-user [user]="secondUser"></app-card-user>
-    </div>
-  </section>
-  <section class="home__result p-4">
-    <div class="my-4 pb-4">
-      <h1 class="display-5 text-center">Ahora puedes buscar a profundidad</h1>
-    </div>
-    <app-search-bar></app-search-bar>
-    <div class="row">
-      <div class="col-3" *ngFor="let item of [1, 2, 3, 4]">
-        <app-card-result></app-card-result>
+  <div *ngIf="{ users: users$ | async } as store">
+    <section class="row my-5">
+      <div class="col-md-5">
+        <app-search-bar
+          (clickSearch)="searchUser($event); position = 'first'"
+          [(successfulSearch)]="firstSearchState"
+        ></app-search-bar>
       </div>
-    </div>
-  </section>
+      <div class="col" *ngIf="store.users?.firstUser">
+        <h1 class="fw-bold text-primary text-center">VS</h1>
+      </div>
+      <div class="col-md-5" *ngIf="store.users?.firstUser">
+        <app-search-bar
+          (clickSearch)="searchUser($event); position = 'second'"
+          [(successfulSearch)]="secondSearchState"
+        ></app-search-bar>
+      </div>
+    </section>
+    <section class="row my-5">
+      <div class="col-md-6 mt-4 p-2" *ngIf="store.users?.firstUser">
+        <app-card-user [user]="store.users?.firstUser"></app-card-user>
+      </div>
+      <div class="col-md-6 mt-4 p-2" *ngIf="store.users?.secondUser">
+        <app-card-user [user]="store.users?.secondUser"></app-card-user>
+      </div>
+    </section>
+    <section class="home__result p-4">
+      <div class="my-4 pb-4">
+        <h1 class="display-5 text-center">Ahora puedes buscar a profundidad</h1>
+      </div>
+      <app-search-bar></app-search-bar>
+      <div class="row">
+        <div class="col-3" *ngFor="let item of [1, 2, 3, 4]">
+          <app-card-result></app-card-result>
+        </div>
+      </div>
+    </section>
+  </div>
 </div>

@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ComponentsModule } from './components/components.module';
 import { HomeComponent } from './pages/home/home.component';
+import { GlobalStoreModule } from './store/store.module';
 @NgModule({
   declarations: [AppComponent, HomeComponent],
   imports: [
@@ -14,6 +15,7 @@ import { HomeComponent } from './pages/home/home.component';
     AppRoutingModule,
     ComponentsModule,
     HttpClientModule,
+    GlobalStoreModule,
   ],
   providers: [GithubService],
   bootstrap: [AppComponent],

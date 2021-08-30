@@ -10,7 +10,7 @@ export class SearchBarComponent implements OnInit {
   @Input() successfulSearch: boolean = false;
   @Output() successfulSearchChange = new EventEmitter<boolean>();
   @Output() clickSearch = new EventEmitter<string>();
-  isDisabled: boolean = false;
+  public hasErrors: boolean = false;
   public formSearch: FormGroup;
   public changeSubscription: any;
 
@@ -25,6 +25,7 @@ export class SearchBarComponent implements OnInit {
       (control) => {
         if (control?.word) {
           this.successfulSearchChange.emit(false);
+          this.hasErrors = false;
         }
       }
     );
@@ -35,8 +36,13 @@ export class SearchBarComponent implements OnInit {
   }
 
   handleClickSearch() {
-    this.word?.disable();
-    this.clickSearch.emit(this.word?.value);
+    const valid = this.word?.errors && this.word?.value === '';
+    if (valid) {
+      this.hasErrors = true;
+    } else {
+      this.word?.disable();
+      this.clickSearch.emit(this.word?.value);
+    }
   }
   handleClickRemove() {
     this.word?.enable();
