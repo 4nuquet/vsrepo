@@ -12,9 +12,13 @@
         <app-search-bar
           (clickSearch)="searchUser($event); position = 'first'"
           [(successfulSearch)]="firstSearchState"
+          [errorMessage]="errorMessage"
         ></app-search-bar>
       </div>
-      <div class="col" *ngIf="store.users?.firstUser">
+      <div
+        class="col d-flex justify-content-center align-items-center"
+        *ngIf="store.users?.firstUser"
+      >
         <h1 class="fw-bold text-primary text-center">VS</h1>
       </div>
       <div class="col-md-5" *ngIf="store.users?.firstUser">
@@ -25,15 +29,22 @@
       </div>
     </section>
     <section class="row my-5">
-      <div class="col-md-6 mt-4 p-2" *ngIf="store.users?.firstUser">
+      <div
+        class="col-md-6 mt-4 p-2 animate__animated animate__bounceInLeft"
+        *ngIf="store.users?.firstUser"
+      >
         <app-card-user [user]="store.users?.firstUser"></app-card-user>
       </div>
-      <div class="col-md-6 mt-4 p-2" *ngIf="store.users?.secondUser">
+      <div
+        class="col-md-6 mt-4 p-2 animate__animated animate__bounceInRight"
+        *ngIf="store.users?.secondUser"
+      >
         <app-card-user [user]="store.users?.secondUser"></app-card-user>
       </div>
     </section>
     <section
-      class="home__result p-4"
+      id="home-results"
+      class="home__result p-4 mb-4"
       *ngIf="store.users?.firstUser && store.users?.secondUser"
     >
       <div class="my-4 pb-4">
@@ -44,13 +55,18 @@
       <div class="row my-5 justify-content-center" *ngIf="store.searches">
         <div class="col-md-5">
           <app-search-bar
-            (clickSearch)="searchRepository($event)"
+            (clickSearch)="handleFilter($event)"
             [(successfulSearch)]="searchesState"
+            [filters]="searchFilters"
+            (filterValue)="searchType = $event"
           ></app-search-bar>
         </div>
       </div>
-      <div class="row">
-        <div class="col-3" *ngFor="let item of searches">
+      <div id="home-results-list" *ngIf="searchesState" class="row">
+        <div
+          class="col-3 my-4 animate__animated animate__bounceInUp"
+          *ngFor="let item of searches"
+        >
           <app-card-result
             [result]="item"
             [type]="searchType"

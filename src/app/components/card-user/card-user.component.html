@@ -8,7 +8,7 @@
       />
       <div class="text-end mt-4 ms-2">
         <h2 class="text-white fw-bold">{{ user?.name }}</h2>
-        <span class="lead">{{ user?.bio }}</span>
+        <span class="lead text-white">{{ user?.bio }}</span>
       </div>
     </div>
   </div>
@@ -24,20 +24,20 @@
         >{{ user?.public_repos }} &nbsp; <i class="bi bi-box-seam"></i
       ></span>
     </div>
-    <hr class="hr-dark" *ngIf="hasSocialInfo" />
-    <div
-      *ngIf="hasSocialInfo"
-      class="p-2 d-flex justify-content-between align-items-center"
-    >
+    <hr class="hr-dark" />
+    <div class="p-2 d-flex justify-content-between align-items-center">
       <span class="fw-bold card_user__body--item">Social</span>
-      <div>
-        <a [href]="user?.blog" target="_blank" class="p-1 text-dark"
+      <div *ngIf="hasSocialInfo; else emptySocial">
+        <a [href]="user?.blog" target="_blank" class="p-2 text-dark"
           ><i class="bi bi-globe"></i
         ></a>
-        <a [href]="user?.twitter_username" target="_blank" class="p-1 text-dark"
+        <a [href]="user?.twitter_username" target="_blank" class="p-2 text-dark"
           ><i class="bi bi-twitter"></i
         ></a>
       </div>
+      <ng-template #emptySocial>
+        <i class="bi bi-dash text-dark"></i>
+      </ng-template>
     </div>
   </div>
 </div>

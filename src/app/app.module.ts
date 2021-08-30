@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { ComponentsModule } from './components/components.module';
 import { HomeComponent } from './pages/home/home.component';
 import { GlobalStoreModule } from './store/store.module';
+import { UtilService } from './services/util.service';
 @NgModule({
   declarations: [AppComponent, HomeComponent],
   imports: [
@@ -17,7 +18,7 @@ import { GlobalStoreModule } from './store/store.module';
     HttpClientModule,
     GlobalStoreModule,
   ],
-  providers: [GithubService],
+  providers: [GithubService, UtilService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

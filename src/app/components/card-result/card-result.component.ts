@@ -6,14 +6,14 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./card-result.component.scss'],
 })
 export class CardResultComponent {
-  @Input() result: any;
+  @Input() result: Repository;
   @Input() type: string;
 
   constructor() {}
 
   get icon(): string {
     switch (this.type) {
-      case TypeResult.repo:
+      case TypeResult.repository:
         return 'bi bi-box-seam';
       case TypeResult.code:
         return 'bi bi-code';
@@ -23,10 +23,49 @@ export class CardResultComponent {
         return '';
     }
   }
+
+  get color(): string {
+    switch (this.type) {
+      case TypeResult.repository:
+        return 'repository';
+      case TypeResult.code:
+        return 'code';
+      case TypeResult.commit:
+        return 'commit';
+      default:
+        return '';
+    }
+  }
+
+  get languageIcon(): string {
+    switch (this.result.language) {
+      case Languages.javascript:
+        return '/assets/icons/javascript.svg';
+      case Languages.javascript:
+        return '/assets/icons/typescript.svg';
+      default:
+        return '';
+    }
+  }
 }
 
 export enum TypeResult {
-  repo = 'repo',
-  code = 'code',
-  commit = 'commit',
+  repository = 'repositorio',
+  code = 'codigo',
+  commit = 'commits',
+}
+
+export enum Languages {
+  javascript = 'JavaScript',
+  typescript = 'TypeScript',
+}
+
+export interface Repository {
+  id?: number;
+  name: string;
+  owner: { login: string };
+  language: string;
+  watchers: string;
+  stargazers_count: number;
+  forks?: number;
 }

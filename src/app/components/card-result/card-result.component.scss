@@ -15,7 +15,7 @@
       font-size: var(--s32);
     }
 
-    &--repo {
+    &--repository {
       background-image: var(--gradient-dark);
     }
     &--code {
@@ -26,6 +26,14 @@
     }
     &--issue {
       background-image: var(--gradient-primary);
+    }
+  }
+  &__body {
+    i {
+      font-size: var(--s24);
+    }
+    img {
+      width: var(--s24);
     }
   }
 }

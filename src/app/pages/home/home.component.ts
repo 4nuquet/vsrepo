@@ -10,6 +10,7 @@ import {
   SearchesState,
 } from './../../store/searches/searches.state';
 import * as SearchesActions from './../../store/searches/searches.actions';
+import { UtilService } from 'src/app/services/util.service';
 
 @Component({
   selector: 'app-home',
@@ -22,14 +23,17 @@ export class HomeComponent implements OnInit {
   searches$: Observable<SearchesState>;
   searches: any[];
   searchType: string;
+  searchFilters: string[];
   firstSearchState: boolean = false;
   secondSearchState: boolean = false;
   searchesState: boolean = false;
-  public position: string;
+  position: string;
+  errorMessage: string | null;
 
   constructor(
     private store: Store<GlobalState>,
-    private githubService: GithubService
+    private githubService: GithubService,
+    private utilService: UtilService
   ) {
     this.users$ = this.store.select('usersState');
     this.searches$ = this.store.select('searchesState');
@@ -38,18 +42,38 @@ export class HomeComponent implements OnInit {
     this.users$.subscribe((user) => {
       this.users = user;
     });
+    this.searchFilters = [Filters.repository, Filters.code, Filters.commit];
+  }
+
+  public handleFilter(query: string): void {
+    switch (this.searchType) {
+      case Filters.repository:
+        this.searchRepository(query);
+        break;
+      default:
+        break;
+    }
+    this.searchesState = true;
   }
 
   public searchUser(username: string) {
-    this.githubService.getUser(username).then((res) => {
-      if (this.position == Position.first) {
-        this.addFirstUser(res);
-        this.firstSearchState = true;
-      } else {
-        this.addSecondUser(res);
-        this.secondSearchState = true;
-      }
-    });
+    this.errorMessage = null;
+    this.githubService
+      .getUser(username)
+      .then((res) => {
+        if (this.position == Position.first) {
+          this.addFirstUser(res);
+          this.firstSearchState = true;
+        } else {
+          this.addSecondUser(res);
+          this.secondSearchState = true;
+        }
+      })
+      .catch((e) => {
+        this.errorMessage = this.utilService.handleFetchErrors(
+          e?.error.message
+        );
+      });
   }
   public searchRepository(query: string) {
     const firstUser = this.users.firstUser?.login || '';
@@ -59,17 +83,24 @@ export class HomeComponent implements OnInit {
       secondUser,
       query
     );
-    Promise.all([firstRequest, secondRequest]).then((response) => {
-      const repositories = [...response[0]?.items, response[1]?.items];
-      this.searches = repositories;
-      this.searchType = 'repo';
-      this.addRepository(repositories);
-      this.searchesState = true;
-    });
+    Promise.all([firstRequest, secondRequest])
+      .then((response) => {
+        const repositories = [...response[0]?.items, ...response[1]?.items];
+        this.searches = repositories;
+        this.searchType = Filters.repository;
+        this.searchesState = true;
+        this.addRepository(repositories);
+      })
+      .catch((e) => {
+        this.errorMessage = this.utilService.handleFetchErrors(
+          e?.error.message
+        );
+      });
   }
 
   addRepository(repo: Repository[]) {
     this.store.dispatch(new SearchesActions.AddRepositories(repo));
+    this.utilService.scrollTo('home-results-list', 500);
   }
 
   addFirstUser(user: User) {
@@ -78,9 +109,16 @@ export class HomeComponent implements OnInit {
 
   addSecondUser(user: User) {
     this.store.dispatch(new UsersActions.CreateSecondUser(user));
+    this.utilService.scrollTo('home-results');
   }
 }
 export enum Position {
   first = 'first',
   second = 'second',
+}
+
+export enum Filters {
+  repository = 'repositorio',
+  code = 'codigo',
+  commit = 'commits',
 }
