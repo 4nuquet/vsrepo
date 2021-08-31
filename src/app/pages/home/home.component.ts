@@ -77,7 +77,7 @@ export class HomeComponent implements OnInit {
       })
       .catch((e) => {
         this.errorMessage = this.utilService.handleFetchErrors(
-          e?.error.message
+          e?.error?.message
         );
       });
   }
@@ -92,8 +92,8 @@ export class HomeComponent implements OnInit {
     Promise.all([firstRequest, secondRequest])
       .then((response) => {
         const repositories = [...response[0]?.items, ...response[1]?.items];
-        !repositories.length ? (this.isEmpty = true) : (this.isEmpty = false);
 
+        !repositories.length ? (this.isEmpty = true) : (this.isEmpty = false);
         this.searches = repositories;
         this.searchType = TypeResult.repository;
         this.searchesState = true;
@@ -101,7 +101,7 @@ export class HomeComponent implements OnInit {
       })
       .catch((e) => {
         this.errorMessage = this.utilService.handleFetchErrors(
-          e?.error.message
+          e?.error?.message
         );
       });
   }
@@ -122,7 +122,7 @@ export class HomeComponent implements OnInit {
       })
       .catch((e) => {
         this.errorMessage = this.utilService.handleFetchErrors(
-          e?.error.message
+          e?.error?.message
         );
       });
   }
