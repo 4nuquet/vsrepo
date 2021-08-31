@@ -1,15 +1,14 @@
 {
   "name": "vsrepo",
   "version": "0.0.0",
-  "homepage": "https://4nuquet.github.io/vsrepo/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod --base-href=/vsrepo/ &&  echo 4nuquet.github.io > dist/vsrepo/CNAME",
+    "build": "ng build --prod --base-href",
     "watch": "ng build --watch --configuration development",
     "test": "ng test transaction --watch false --code-coverage",
     "lint": "ng lint",
-    "deploy": "ng deploy —dir=dist/vsrepo --base-href=/vsrepo/"
+    "deploy": "ng deploy —dir=dist/vsrepo"
   },
   "private": true,
   "dependencies": {
