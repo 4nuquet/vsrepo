@@ -65,6 +65,10 @@ export class SearchBarComponent implements OnInit, OnChanges {
       this.word?.disable();
       this.clickSearch.emit(this.word?.value);
     }
+    if (this.filters?.length && !this.filter?.value) {
+      this.filter?.setValue('repositorios');
+      this.formSearch.updateValueAndValidity();
+    }
   }
 
   handleClickFilter() {

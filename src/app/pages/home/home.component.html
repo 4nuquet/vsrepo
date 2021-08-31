@@ -53,7 +53,7 @@
         </h1>
       </div>
       <div class="row my-5 justify-content-center" *ngIf="store.searches">
-        <div class="col-md-5">
+        <div class="col-8">
           <app-search-bar
             (clickSearch)="handleFilter($event)"
             [(successfulSearch)]="searchesState"
@@ -62,9 +62,13 @@
           ></app-search-bar>
         </div>
       </div>
-      <div id="home-results-list" *ngIf="searchesState" class="row">
+      <div
+        id="home-results-list"
+        *ngIf="store?.searches && !isEmpty; else emptySearch"
+        class="row"
+      >
         <div
-          class="col-3 my-4 animate__animated animate__bounceInUp"
+          class="col-3 my-4 animate__animated animate__pulse"
           *ngFor="let item of searches"
         >
           <app-card-result
@@ -73,6 +77,13 @@
           ></app-card-result>
         </div>
       </div>
+      <ng-template #emptySearch>
+        <div id="home-results-list" class="row justify-content-center">
+          <div class="col-6">
+            <img class="img-fluid" src="/assets/images/404.png" alt="" />
+          </div>
+        </div>
+      </ng-template>
     </section>
   </div>
 </div>

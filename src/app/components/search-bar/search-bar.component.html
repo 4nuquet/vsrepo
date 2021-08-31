@@ -1,38 +1,44 @@
 <form [formGroup]="formSearch" class="search-bar">
-  <div class="input-group" *ngIf="!successfulSearch; else result">
-    <input
-      [ngClass]="{ 'is-invalid': errorMessage }"
-      type="text"
-      class="form-control py-2"
-      placeholder="A quien buscas?"
-      formControlName="word"
-    />
-    <button
-      class="btn btn-outline-success"
-      (click)="handleClickSearch()"
-      [disabled]="word?.disabled"
-    >
-      Buscar
-    </button>
-    <div *ngIf="errorMessage" class="invalid-feedback p-2">
-      {{ errorMessage }}
+  <div class="row">
+    <div class="col">
+      <div class="input-group" *ngIf="!successfulSearch; else result">
+        <input
+          [ngClass]="{ 'is-invalid': errorMessage }"
+          type="text"
+          class="form-control py-2"
+          placeholder="Escribe lo que buscas.."
+          formControlName="word"
+        />
+        <button
+          class="btn btn-outline-success"
+          (click)="handleClickSearch()"
+          [disabled]="word?.disabled"
+        >
+          Buscar
+        </button>
+        <div *ngIf="errorMessage" class="invalid-feedback p-2">
+          {{ errorMessage }}
+        </div>
+      </div>
+    </div>
+    <div *ngIf="filters && !successfulSearch" class="col">
+      <div class="input-group">
+        <label class="input-group-text" for="selectFilter">Buscar En</label>
+        <select
+          class="form-select w-25 py-2"
+          formControlName="filter"
+          id="selectFilter"
+          (change)="handleClickFilter()"
+        >
+          <option *ngFor="let item of filters" [value]="item">
+            {{ item }}
+          </option>
+        </select>
+      </div>
     </div>
   </div>
-  <div *ngIf="filters && !successfulSearch" class="input-group mt-2">
-    <label class="input-group-text" for="selectFilter">Filtrar Por</label>
-    <select
-      class="form-select w-25"
-      formControlName="filter"
-      id="selectFilter"
-      (change)="handleClickFilter()"
-    >
-      <option *ngFor="let item of filters" [value]="item">
-        {{ item }}
-      </option>
-    </select>
-  </div>
   <ng-template #result>
-    <div class="card p-4 search-bar--result">
+    <div class="card p-4 search-bar--result animate__animated animate__pulse">
       <h1 class="display-6 fw-bold text-center">{{ word?.value }}</h1>
       <div
         class="d-flex"
@@ -40,7 +46,9 @@
           filter?.value ? 'justify-content-between' : 'justify-content-end'
         ]"
       >
-        <span *ngIf="filter?.value" class="lead">{{ filter?.value }}</span>
+        <span *ngIf="filter?.value" class="lead text-warning fw-bold">{{
+          filter?.value
+        }}</span>
         <div>
           <!-- <span class="me-4">
             <i class="bi bi-arrow-counterclockwise text-warning"></i>

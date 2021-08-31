@@ -10,6 +10,7 @@ import {
   SearchesState,
 } from './../../store/searches/searches.state';
 import * as SearchesActions from './../../store/searches/searches.actions';
+import { TypeResult } from './../../components/card-result/card-result.component';
 import { UtilService } from 'src/app/services/util.service';
 
 @Component({
@@ -27,6 +28,7 @@ export class HomeComponent implements OnInit {
   firstSearchState: boolean = false;
   secondSearchState: boolean = false;
   searchesState: boolean = false;
+  isEmpty: boolean = false;
   position: string;
   errorMessage: string | null;
 
@@ -42,15 +44,19 @@ export class HomeComponent implements OnInit {
     this.users$.subscribe((user) => {
       this.users = user;
     });
-    this.searchFilters = [Filters.repository, Filters.code, Filters.commit];
+    this.searchFilters = [TypeResult.repository, TypeResult.commit];
   }
 
   public handleFilter(query: string): void {
     switch (this.searchType) {
-      case Filters.repository:
+      case TypeResult.repository:
         this.searchRepository(query);
         break;
+      case TypeResult.commit:
+        this.searchCommits(query);
+        break;
       default:
+        this.searchRepository(query);
         break;
     }
     this.searchesState = true;
@@ -86,10 +92,33 @@ export class HomeComponent implements OnInit {
     Promise.all([firstRequest, secondRequest])
       .then((response) => {
         const repositories = [...response[0]?.items, ...response[1]?.items];
+        !repositories.length ? (this.isEmpty = true) : (this.isEmpty = false);
+
         this.searches = repositories;
-        this.searchType = Filters.repository;
+        this.searchType = TypeResult.repository;
         this.searchesState = true;
         this.addRepository(repositories);
+      })
+      .catch((e) => {
+        this.errorMessage = this.utilService.handleFetchErrors(
+          e?.error.message
+        );
+      });
+  }
+
+  public searchCommits(query: string) {
+    const firstUser = this.users.firstUser?.login || '';
+    const secondUser = this.users.secondUser?.login || '';
+    const firstRequest = this.githubService.searchCommits(firstUser, query);
+    const secondRequest = this.githubService.searchCommits(secondUser, query);
+    Promise.all([firstRequest, secondRequest])
+      .then((response) => {
+        const commits = [...response[0]?.items, ...response[1]?.items];
+        !commits.length ? (this.isEmpty = true) : (this.isEmpty = false);
+        this.searches = commits;
+        this.searchType = TypeResult.commit;
+        this.searchesState = true;
+        this.addRepository(commits);
       })
       .catch((e) => {
         this.errorMessage = this.utilService.handleFetchErrors(
@@ -115,10 +144,4 @@ export class HomeComponent implements OnInit {
 export enum Position {
   first = 'first',
   second = 'second',
-}
-
-export enum Filters {
-  repository = 'repositorio',
-  code = 'codigo',
-  commit = 'commits',
 }

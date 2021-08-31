@@ -1,5 +1,5 @@
 import { environment } from './../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -25,20 +25,16 @@ export class GithubService {
       .toPromise();
   }
 
-  public searchCode(username: string, query: string): Promise<any> {
-    const perPage = 30;
-    return this.httpClient
-      .get(
-        `${this.serverUrl}search/code?${this.auth}&q=${query}+user:${username}&per_page=${perPage}`
-      )
-      .toPromise();
-  }
-
   public searchCommits(username: string, query: string): Promise<any> {
     const perPage = 30;
+    const headers = new HttpHeaders().set(
+      'Accept',
+      'application/vnd.github.cloak-preview+json'
+    );
     return this.httpClient
       .get(
-        `${this.serverUrl}search/commits?${this.auth}&q=${query}+user:${username}&per_page=${perPage}`
+        `${this.serverUrl}search/commits?${this.auth}&q=${query}+user:${username}&per_page=${perPage}`,
+        { headers }
       )
       .toPromise();
   }
